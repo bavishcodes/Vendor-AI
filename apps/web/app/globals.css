@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  /* White */
+  --foreground: #263238;
+  /* Charcoal */
+  --card: #ffffff;
+  --card-foreground: #263238;
+  --popover: #ffffff;
+  --popover-foreground: #263238;
+  --primary: #2e7d32;
+  /* Deep Green */
+  --primary-foreground: #ffffff;
+  --secondary: #a5d6a7;
+  /* Light Green */
+  --secondary-foreground: #263238;
+  --muted-foreground: #455a64;
+  /* Charcoal-ish Grey */
+  --accent: #ffc107;
+  /* Amber */
+  --accent-foreground: #263238;
+  --destructive: #d32f2f;
+  --destructive-foreground: #ffffff;
+  --border: #e0e0e0;
+  --input: #e0e0e0;
+  --ring: #2e7d32;
+  --radius: 0.5rem;
+
+  /* Custom Variables for utility usage if needed raw */
+  --color-deep-green: #2e7d32;
+  --color-light-green: #a5d6a7;
+  --color-charcoal: #263238;
+  --color-amber: #ffc107;
+}
+
+@theme {
+  --color-deep-green: #2e7d32;
+  --color-light-green: #a5d6a7;
+  --color-charcoal: #263238;
+  --color-amber: #ffc107;
+
+  --color-primary: #2e7d32;
+  --color-secondary: #a5d6a7;
+  --color-accent: #ffc107;
+
+  /* Force override legacy colors commonly used in templates */
+  --color-slate-50: #ffffff;
+  --color-slate-100: #f1f8e9;
+  --color-slate-200: #e8f5e9;
+  --color-slate-300: #c8e6c9;
+  --color-slate-400: #a5d6a7;
+  --color-slate-500: #81c784;
+  --color-slate-600: #66bb6a;
+  --color-slate-700: #4caf50;
+  --color-slate-800: #43a047;
+  --color-slate-900: #2e7d32;
+
+  --color-indigo-50: #f1f8e9;
+  --color-indigo-100: #e8f5e9;
+  --color-indigo-500: #2e7d32;
+  --color-indigo-600: #1b5e20;
+  --color-indigo-700: #1b5e20;
+
+  --color-blue-500: #2e7d32;
+  --color-purple-500: #2e7d32;
+}
+
+@layer base {
+  body {
+    @apply bg-white text-charcoal antialiased;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(165, 214, 167, 0.2);
+}
+
+.dark .glass {
+  background: rgba(38, 50, 56, 0.7);
+  border-bottom: 1px solid rgba(165, 214, 167, 0.1);
+}
