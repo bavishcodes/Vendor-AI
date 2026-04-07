@@ -28,21 +28,47 @@
   --radius: 0.5rem;
 
   /* Custom Variables for utility usage if needed raw */
-  --color-deep-green: #2e7d32;
-  --color-light-green: #a5d6a7;
-  --color-charcoal: #263238;
-  --color-amber: #ffc107;
+  --tone-deep-green: #2e7d32;
+  --tone-light-green: #a5d6a7;
+  --tone-charcoal: #263238;
+  --tone-amber: #ffc107;
+}
+
+.dark {
+  --background: #0f171a;
+  --foreground: #eef8f3;
+  --card: #172126;
+  --card-foreground: #eef8f3;
+  --popover: #172126;
+  --popover-foreground: #eef8f3;
+  --primary: #7ccf80;
+  --primary-foreground: #0f171a;
+  --secondary: #1d2a2f;
+  --secondary-foreground: #deede6;
+  --muted-foreground: #c5d9cf;
+  --accent: #ffd95e;
+  --accent-foreground: #152025;
+  --destructive: #f06a6a;
+  --destructive-foreground: #0f171a;
+  --border: #2a3a42;
+  --input: #2a3a42;
+  --ring: #7ccf80;
+
+  --tone-deep-green: #2a7a4f;
+  --tone-light-green: #a7d7b2;
+  --tone-charcoal: #eef8f3;
+  --tone-amber: #ffd95e;
 }
 
 @theme {
-  --color-deep-green: #2e7d32;
-  --color-light-green: #a5d6a7;
-  --color-charcoal: #263238;
-  --color-amber: #ffc107;
+  --color-deep-green: var(--tone-deep-green);
+  --color-light-green: var(--tone-light-green);
+  --color-charcoal: var(--tone-charcoal);
+  --color-amber: var(--tone-amber);
 
-  --color-primary: #2e7d32;
-  --color-secondary: #a5d6a7;
-  --color-accent: #ffc107;
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
 
   /* Force override legacy colors commonly used in templates */
   --color-slate-50: #ffffff;
@@ -68,7 +94,7 @@
 
 @layer base {
   body {
-    @apply bg-white text-charcoal antialiased;
+    @apply antialiased;
   }
 }
 
@@ -78,6 +104,7 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .glass {
@@ -90,4 +117,36 @@ body {
 .dark .glass {
   background: rgba(38, 50, 56, 0.7);
   border-bottom: 1px solid rgba(165, 214, 167, 0.1);
+}
+
+.dark .bg-white {
+  background-color: var(--card);
+}
+
+.dark .text-charcoal {
+  color: var(--foreground);
+}
+
+/* Boost readability for muted text/icon shades in dark mode */
+.dark .text-charcoal\/40 {
+  color: color-mix(in srgb, var(--foreground) 72%, var(--background));
+}
+
+.dark .text-charcoal\/50 {
+  color: color-mix(in srgb, var(--foreground) 78%, var(--background));
+}
+
+.dark .text-charcoal\/60 {
+  color: color-mix(in srgb, var(--foreground) 84%, var(--background));
+}
+
+.dark .text-charcoal\/70 {
+  color: color-mix(in srgb, var(--foreground) 90%, var(--background));
+}
+
+.dark .text-deep-green\/60,
+.dark .text-deep-green\/70,
+.dark .text-light-green\/60,
+.dark .text-light-green\/70 {
+  color: color-mix(in srgb, var(--primary) 78%, var(--foreground));
 }

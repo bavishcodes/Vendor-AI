@@ -4,17 +4,22 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useSidebar } from "@/context/SidebarContext";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function VendorSidebar() {
     const pathname = usePathname();
     const { user, logout } = useAuth();
     const { isOpen } = useSidebar();
+    const locale = useLocale();
+    const t = useTranslations();
+
+    const withLocale = (path: string) => `/${locale}${path}`;
 
     const links = [
-        { name: "My Dashboard", href: "/vendor", icon: LayoutDashboard },
-        { name: "My Inventory", href: "/vendor/inventory", icon: Package },
-        { name: "Enter Daily Sales", href: "/vendor/sales/entry", icon: IndianRupee },
-        { name: "Sales Reports", href: "/vendor/sales", icon: TrendingUp },
+        { name: t("dashboard.title"), href: withLocale("/vendor"), icon: LayoutDashboard },
+        { name: t("vendor_dashboard.inventory"), href: withLocale("/vendor/inventory"), icon: Package },
+        { name: t("vendor_dashboard.sales_today"), href: withLocale("/vendor/sales/entry"), icon: IndianRupee },
+        { name: t("analytics.title"), href: withLocale("/vendor/sales"), icon: TrendingUp },
     ];
 
     return (
@@ -55,7 +60,7 @@ export default function VendorSidebar() {
                     </div>
                     <div className="overflow-hidden">
                         <p className="text-sm font-bold text-white truncate w-32">
-                            {user ? user.name : "Shop Keeper"}
+                            {user ? user.name : t("auth.shopkeeper")}
                         </p>
                         <p className="text-xs text-light-green/60 truncate w-32">
                             {user ? user.email : "shop@vendorai.com"}
@@ -67,7 +72,7 @@ export default function VendorSidebar() {
                     className="flex w-full items-center gap-3 px-4 py-3 rounded-xl text-red-100 hover:bg-red-500/20 hover:text-white transition-all font-bold group"
                 >
                     <LogOut className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
-                    Sign Out
+                    {t("common.logout")}
                 </button>
             </div>
         </aside>

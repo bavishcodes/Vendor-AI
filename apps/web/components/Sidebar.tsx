@@ -3,10 +3,15 @@ import Link from "next/link";
 import { LayoutDashboard, Users, Package, TrendingUp, Settings, LogOut, Store, Clock } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useSidebar } from "@/context/SidebarContext";
+import { useLocale, useTranslations } from "next-intl";
 
 const Sidebar = () => {
   const { user, logout } = useAuth();
   const { isOpen } = useSidebar();
+  const locale = useLocale();
+  const t = useTranslations();
+
+  const withLocale = (path: string) => `/${locale}${path}`;
 
   return (
     <div className={`w-64 bg-deep-green text-white h-screen fixed left-0 top-0 flex flex-col shadow-xl z-50 transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
@@ -16,29 +21,29 @@ const Sidebar = () => {
       </div>
 
       <nav className="flex-1 p-4 space-y-2 mt-4 overflow-x-hidden">
-        <Link href="/" className="flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-lg text-light-green/70 hover:bg-white/10 hover:text-white transition-all group">
+        <Link href={withLocale("")} className="flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-lg text-light-green/70 hover:bg-white/10 hover:text-white transition-all group">
           <LayoutDashboard className="w-5 h-5 flex-shrink-0" />
-          <span>Dashboard</span>
+          <span>{t("navbar.dashboard")}</span>
         </Link>
-        <Link href="/vendors" className="flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-lg text-light-green/70 hover:bg-white/10 hover:text-white transition-all group">
+        <Link href={withLocale("/vendors")} className="flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-lg text-light-green/70 hover:bg-white/10 hover:text-white transition-all group">
           <Users className="w-5 h-5 flex-shrink-0" />
-          <span>Vendors</span>
+          <span>{t("navbar.vendors")}</span>
         </Link>
-        <Link href="/inventory" className="flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-lg text-light-green/70 hover:bg-white/10 hover:text-white transition-all group">
+        <Link href={withLocale("/inventory")} className="flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-lg text-light-green/70 hover:bg-white/10 hover:text-white transition-all group">
           <Package className="w-5 h-5 flex-shrink-0" />
-          <span>Inventory</span>
+          <span>{t("navbar.inventory")}</span>
         </Link>
-        <Link href="/requests" className="flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-lg text-light-green/70 hover:bg-white/10 hover:text-white transition-all group">
+        <Link href={withLocale("/requests")} className="flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-lg text-light-green/70 hover:bg-white/10 hover:text-white transition-all group">
           <Clock className="w-5 h-5 flex-shrink-0" />
-          <span>Stock Requests</span>
+          <span>{t("navbar.requests")}</span>
         </Link>
-        <Link href="/analytics" className="flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-lg text-light-green/70 hover:bg-white/10 hover:text-white transition-all group">
+        <Link href={withLocale("/analytics")} className="flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-lg text-light-green/70 hover:bg-white/10 hover:text-white transition-all group">
           <TrendingUp className="w-5 h-5 flex-shrink-0" />
-          <span>Analytics</span>
+          <span>{t("navbar.analytics")}</span>
         </Link>
-        <Link href="/settings" className="flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-lg text-light-green/70 hover:bg-white/10 hover:text-white transition-all group">
+        <Link href={withLocale("/settings")} className="flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-lg text-light-green/70 hover:bg-white/10 hover:text-white transition-all group">
           <Settings className="w-5 h-5 flex-shrink-0" />
-          <span>Settings</span>
+          <span>{t("navbar.settings")}</span>
         </Link>
       </nav>
 
@@ -49,7 +54,7 @@ const Sidebar = () => {
           </div>
           <div className="overflow-hidden">
             <p className="text-sm font-bold text-white truncate w-32">
-              {user ? user.name : "Guest"}
+              {user ? user.name : t("common.profile")}
             </p>
             <p className="text-xs text-light-green/60 truncate w-32">
               {user ? user.email : "guest@vendorai.com"}
@@ -58,7 +63,7 @@ const Sidebar = () => {
         </div>
         <button onClick={logout} className="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-lg text-red-100 hover:bg-red-500/20 hover:text-white transition-all group">
           <LogOut className="w-5 h-5 flex-shrink-0" />
-          <span>Logout</span>
+          <span>{t("common.logout")}</span>
         </button>
       </div>
     </div>

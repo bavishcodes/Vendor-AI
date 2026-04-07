@@ -1,7 +1,6 @@
 "use client";
-import { divIcon } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, Marker, Popup, Circle } from "react-leaflet";
+import { MapContainer, TileLayer, Popup, Circle } from "react-leaflet";
 
 // Mock data for foot traffic heat spots in Bangalore
 const trafficSpots = [

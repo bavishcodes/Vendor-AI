@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { X, Calendar, Package, Ruler, Truck, Clock, IndianRupee, MapPin, Store, AlertTriangle } from "lucide-react";
 import { useInventory } from "@/context/InventoryContext";
 import { useVendors } from "@/context/VendorContext";
@@ -27,20 +27,6 @@ export default function StockRequestModal({ isOpen, onClose }: StockRequestModal
         preferredSupplier: "",
         maxPrice: ""
     });
-
-    // Auto-fill current stock when product name changes
-    useEffect(() => {
-        if (formData.productName) {
-            const selectedItem = items.find(item => item.name === formData.productName);
-            if (selectedItem) {
-                setFormData(prev => ({
-                    ...prev,
-                    currentStock: selectedItem.quantity.toString(),
-                    unit: selectedItem.unit
-                }));
-            }
-        }
-    }, [formData.productName, items]);
 
     if (!isOpen) return null;
 
@@ -115,7 +101,16 @@ export default function StockRequestModal({ isOpen, onClose }: StockRequestModal
                             <select
                                 required
                                 value={formData.productName}
-                                onChange={(e) => setFormData({ ...formData, productName: e.target.value })}
+                                onChange={(e) => {
+                                    const selectedName = e.target.value;
+                                    const selectedItem = items.find(item => item.name === selectedName);
+                                    setFormData({
+                                        ...formData,
+                                        productName: selectedName,
+                                        currentStock: selectedItem ? selectedItem.quantity.toString() : formData.currentStock,
+                                        unit: selectedItem ? selectedItem.unit : formData.unit,
+                                    });
+                                }}
                                 className="w-full px-4 py-2.5 bg-white border border-light-green/30 rounded-xl focus:ring-2 focus:ring-deep-green/20 focus:border-deep-green outline-none transition-all text-charcoal appearance-none"
                                 style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23064e3b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center', backgroundSize: '1.25rem' }}
                             >

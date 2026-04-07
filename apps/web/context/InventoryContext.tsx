@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 
 export interface InventoryItem {
     id: number;
@@ -25,19 +25,22 @@ interface InventoryContextType {
 
 const InventoryContext = createContext<InventoryContextType | undefined>(undefined);
 
+const defaultInventory: InventoryItem[] = [
+    { id: 201, name: "Tomato (Hybrid)", vendorId: 101, quantity: 45, unit: "kg", price: 24, category: "Vegetables", status: "In Stock", lastUpdated: "2 mins ago" },
+    { id: 202, name: "Potatoes", vendorId: 101, quantity: 120, unit: "kg", price: 18, category: "Vegetables", status: "In Stock", lastUpdated: "5 mins ago" },
+    { id: 203, name: "Onions (Red)", vendorId: 102, quantity: 12, unit: "kg", price: 35, category: "Vegetables", status: "Low Stock", lastUpdated: "10 mins ago" },
+    { id: 204, name: "Apples (Fuji)", vendorId: 102, quantity: 5, unit: "kg", price: 180, category: "Fruits", status: "Low Stock", lastUpdated: "1 hour ago" },
+    { id: 205, name: "Milk (1L Pack)", vendorId: 104, quantity: 0, unit: "pack", price: 55, category: "Dairy", status: "Out of Stock", lastUpdated: "2 hours ago" },
+    { id: 206, name: "Rice (Basmati)", vendorId: 105, quantity: 250, unit: "kg", price: 110, category: "Grains", status: "In Stock", lastUpdated: "30 mins ago" },
+];
+
 export function InventoryProvider({ children }: { children: ReactNode }) {
-    const [items, setItems] = useState<InventoryItem[]>([
-        { id: 201, name: "Tomato (Hybrid)", vendorId: 101, quantity: 45, unit: "kg", price: 24, category: "Vegetables", status: "In Stock", lastUpdated: "2 mins ago" },
-        { id: 202, name: "Potatoes", vendorId: 101, quantity: 120, unit: "kg", price: 18, category: "Vegetables", status: "In Stock", lastUpdated: "5 mins ago" },
-        { id: 203, name: "Onions (Red)", vendorId: 102, quantity: 12, unit: "kg", price: 35, category: "Vegetables", status: "Low Stock", lastUpdated: "10 mins ago" },
-        { id: 204, name: "Apples (Fuji)", vendorId: 102, quantity: 5, unit: "kg", price: 180, category: "Fruits", status: "Low Stock", lastUpdated: "1 hour ago" },
-        { id: 205, name: "Milk (1L Pack)", vendorId: 104, quantity: 0, unit: "pack", price: 55, category: "Dairy", status: "Out of Stock", lastUpdated: "2 hours ago" },
-        { id: 206, name: "Rice (Basmati)", vendorId: 105, quantity: 250, unit: "kg", price: 110, category: "Grains", status: "In Stock", lastUpdated: "30 mins ago" },
-    ]);
+    const [items, setItems] = useState<InventoryItem[]>(defaultInventory);
 
     useEffect(() => {
         const storedInventory = localStorage.getItem("vendor_ai_inventory");
         if (storedInventory) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setItems(JSON.parse(storedInventory));
         }
     }, []);

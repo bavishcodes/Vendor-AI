@@ -17,10 +17,17 @@ export const metadata: Metadata = {
   description: "Advanced AI-driven inventory and sales tracking system.",
 };
 
-import { AuthProvider } from "@/context/AuthContext";
-import { StockRequestProvider } from "@/context/StockRequestContext";
-import { InventoryProvider } from "@/context/InventoryContext";
-import { VendorProvider } from "@/context/VendorContext";
+const initialThemeScript = `
+(() => {
+  const key = "vendor-ai-theme";
+  const root = document.documentElement;
+  const stored = localStorage.getItem(key);
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const theme = stored === "dark" || stored === "light" ? stored : prefersDark ? "dark" : "light";
+  root.classList.remove("light", "dark");
+  root.classList.add(theme);
+})();
+`;
 
 export default function RootLayout({
   children,
@@ -28,19 +35,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: initialThemeScript }} />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-charcoal`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[var(--background)] text-[var(--foreground)] transition-colors duration-300`}
       >
-        <AuthProvider>
-          <VendorProvider>
-            <InventoryProvider>
-              <StockRequestProvider>
-                {children}
-              </StockRequestProvider>
-            </InventoryProvider>
-          </VendorProvider>
-        </AuthProvider>
+        {children}
       </body>
     </html>
   );
